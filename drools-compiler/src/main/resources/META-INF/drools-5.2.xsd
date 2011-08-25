@@ -19,6 +19,7 @@
       <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="rule">
     <xs:complexType>
       <xs:sequence>
@@ -28,12 +29,13 @@
       </xs:sequence>
       <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
-<!-- All rules must have unique names -->
+    <!-- All rules must have unique names -->
     <xs:key name="ruleName">
       <xs:selector xpath="rule"/>
       <xs:field xpath="@name"/>
     </xs:key>
   </xs:element>
+
   <xs:element name="query">
     <xs:complexType>
       <xs:sequence>
@@ -41,34 +43,39 @@
       </xs:sequence>
       <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
-<!-- All rules must have unique names -->
+    <!-- All rules must have unique names -->
     <xs:key name="queryName">
       <xs:selector xpath="query"/>
       <xs:field xpath="@name"/>
     </xs:key>
   </xs:element>
+
   <xs:element name="rule-attribute">
     <xs:complexType>
       <xs:attribute name="name" type="xs:string" use="required"/>
       <xs:attribute name="value" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="import">
     <xs:complexType>
       <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
-    <xs:element name="importfunction">
-      <xs:complexType>
-        <xs:attribute name="name" type="xs:string" use="required"/>
-      </xs:complexType>
-    </xs:element>
+
+  <xs:element name="importfunction">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
   <xs:element name="global">
     <xs:complexType>
       <xs:attribute name="type" type="xs:string" use="required"/>
       <xs:attribute name="identifier" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="function">
     <xs:complexType>
       <xs:sequence>
@@ -79,13 +86,16 @@
       <xs:attribute name="return-type" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="parameter">
     <xs:complexType>
       <xs:attribute name="type" type="xs:string" use="required"/>
       <xs:attribute name="identifier" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="rhs" type="xs:string"/>
+
   <xs:element name="lhs">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded" minOccurs="0">
@@ -98,10 +108,22 @@
       </xs:choice>
     </xs:complexType>
   </xs:element>
-<!-- Restriction Conective  -->
-  <xs:element name="abstractRestrictionConnective" type="restrictionElementType" abstract="true"/>
-  <xs:element name="abstractConditionalElement" type="conditionalElementType" abstract="true"/>
-  <xs:element name="abstractConstraintConective" type="constraintConnectiveElementType" abstract="true"/>
+
+  <!--
+       Restriction connectives
+  -->
+  <xs:element name="abstractRestrictionConnective"
+      type="restrictionElementType"
+      abstract="true"/>
+
+  <xs:element name="abstractConditionalElement"
+      type="conditionalElementType"
+      abstract="true"/>
+
+  <xs:element name="abstractConstraintConective"
+      type="constraintConnectiveElementType"
+      abstract="true"/>
+
   <xs:complexType name="restrictionElementType">
     <xs:choice maxOccurs="unbounded" minOccurs="0">
       <xs:element ref="literal-restriction"/>
@@ -110,6 +132,7 @@
       <xs:element ref="qualified-identifier-restriction"/>
     </xs:choice>
   </xs:complexType>
+
   <xs:complexType name="conditionalElementType">
     <xs:choice maxOccurs="unbounded" minOccurs="0">
       <xs:element ref="not"/>
@@ -118,12 +141,15 @@
       <xs:element ref="pattern"/>
     </xs:choice>
   </xs:complexType>
+
   <xs:complexType name="constraintConnectiveElementType">
     <xs:choice maxOccurs="unbounded" minOccurs="0">
       <xs:element ref="field-constraint"/>
     </xs:choice>
   </xs:complexType>
-  <xs:element name="and-restriction-connective" substitutionGroup="abstractRestrictionConnective">
+
+  <xs:element name="and-restriction-connective"
+      substitutionGroup="abstractRestrictionConnective">
     <xs:complexType>
       <xs:complexContent>
         <xs:extension base="restrictionElementType">
@@ -134,7 +160,9 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
-  <xs:element name="or-restriction-connective" substitutionGroup="abstractRestrictionConnective">
+
+  <xs:element name="or-restriction-connective"
+      substitutionGroup="abstractRestrictionConnective">
     <xs:complexType>
       <xs:complexContent>
         <xs:extension base="restrictionElementType">
@@ -145,8 +173,12 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
-<!-- Conditional Element -->
-  <xs:element name="and-conditional-element" substitutionGroup="abstractConditionalElement">
+
+  <!--
+       Conditional elements
+  -->
+  <xs:element name="and-conditional-element"
+      substitutionGroup="abstractConditionalElement">
     <xs:complexType>
       <xs:complexContent>
         <xs:extension base="conditionalElementType">
@@ -157,7 +189,9 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
-  <xs:element name="or-conditional-element" substitutionGroup="abstractConditionalElement">
+
+  <xs:element name="or-conditional-element"
+      substitutionGroup="abstractConditionalElement">
     <xs:complexType>
       <xs:complexContent>
         <xs:extension base="conditionalElementType">
@@ -168,8 +202,12 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
-<!-- Logical Connectives -->
-  <xs:element name="and-constraint-connective" substitutionGroup="abstractConstraintConective">
+
+  <!--
+       Logical connectives
+  -->
+  <xs:element name="and-constraint-connective"
+      substitutionGroup="abstractConstraintConective">
     <xs:complexType>
       <xs:complexContent>
         <xs:extension base="constraintConnectiveElementType">
@@ -180,7 +218,9 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
-  <xs:element name="or-constraint-connective" substitutionGroup="abstractConstraintConective">
+
+  <xs:element name="or-constraint-connective"
+      substitutionGroup="abstractConstraintConective">
     <xs:complexType>
       <xs:complexContent>
         <xs:extension base="constraintConnectiveElementType">
@@ -191,6 +231,7 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="not">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded" minOccurs="1">
@@ -204,6 +245,7 @@
       </xs:choice>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="exists">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded" minOccurs="0">
@@ -215,6 +257,7 @@
       </xs:choice>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="forall">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded" minOccurs="0">
@@ -222,6 +265,7 @@
       </xs:choice>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="collect">
     <xs:complexType>
       <xs:choice maxOccurs="1" minOccurs="1">
@@ -229,8 +273,11 @@
       </xs:choice>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="expression" type="xs:string"/>
+
   <xs:element name="expr" type="xs:string"/>
+
   <xs:group name="accumulate">
     <xs:sequence>
       <xs:choice>
@@ -247,6 +294,7 @@
       </xs:choice>
     </xs:sequence>
   </xs:group>
+
   <xs:element name="accumulate">
     <xs:complexType>
       <xs:choice maxOccurs="1" minOccurs="1">
@@ -254,6 +302,7 @@
       </xs:choice>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="from">
     <xs:complexType>
       <xs:choice maxOccurs="1">
@@ -263,7 +312,9 @@
       </xs:choice>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="eval" type="xs:string"/>
+
   <xs:element name="pattern">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded" minOccurs="0">
@@ -279,6 +330,7 @@
       <xs:attribute name="object-type" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="field-constraint">
     <xs:complexType>
       <xs:complexContent>
@@ -291,30 +343,35 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="field-binding">
     <xs:complexType>
       <xs:attribute name="field-name" type="xs:string" use="required"/>
       <xs:attribute name="identifier" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="literal-restriction">
     <xs:complexType>
       <xs:attribute name="evaluator" type="xs:string" use="required"/>
       <xs:attribute name="value" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="external-function">
     <xs:complexType>
       <xs:attribute name="evaluator" type="xs:string" use="required"/>
       <xs:attribute name="expression" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="variable-restriction">
     <xs:complexType>
       <xs:attribute name="evaluator" type="xs:string" use="required"/>
       <xs:attribute name="identifier" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="return-value-restriction">
     <xs:complexType>
       <xs:simpleContent>
@@ -324,6 +381,7 @@
       </xs:simpleContent>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="qualified-identifier-restriction">
     <xs:complexType>
       <xs:simpleContent>
@@ -333,6 +391,7 @@
       </xs:simpleContent>
     </xs:complexType>
   </xs:element>
+
   <xs:element name="predicate">
     <xs:complexType>
       <xs:simpleContent>
@@ -343,4 +402,5 @@
       </xs:simpleContent>
     </xs:complexType>
   </xs:element>
+
 </xs:schema>
