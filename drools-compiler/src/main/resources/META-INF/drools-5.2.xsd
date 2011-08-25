@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:drools="http://drools.org/drools-5.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://drools.org/drools-5.2">
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://drools.org/drools-5.2"
+    xmlns="http://drools.org/drools-5.2"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+
   <xs:element name="package">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded" minOccurs="0">
-        <xs:element ref="drools:import"/>
-        <xs:element ref="drools:importfunction"/>
-        <xs:element ref="drools:global"/>
-        <xs:element ref="drools:function"/>
-        <xs:element ref="drools:rule"/>
-        <xs:element ref="drools:query"/>
+        <xs:element ref="import"/>
+        <xs:element ref="importfunction"/>
+        <xs:element ref="global"/>
+        <xs:element ref="function"/>
+        <xs:element ref="rule"/>
+        <xs:element ref="query"/>
       </xs:choice>
       <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
@@ -16,28 +22,28 @@
   <xs:element name="rule">
     <xs:complexType>
       <xs:sequence>
-        <xs:element maxOccurs="unbounded" minOccurs="0" ref="drools:rule-attribute"/>
-        <xs:element ref="drools:lhs"/>
-        <xs:element ref="drools:rhs"/>
+        <xs:element maxOccurs="unbounded" minOccurs="0" ref="rule-attribute"/>
+        <xs:element ref="lhs"/>
+        <xs:element ref="rhs"/>
       </xs:sequence>
       <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
 <!-- All rules must have unique names -->
     <xs:key name="ruleName">
-      <xs:selector xpath="drools:rule"/>
+      <xs:selector xpath="rule"/>
       <xs:field xpath="@name"/>
     </xs:key>
   </xs:element>
   <xs:element name="query">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="drools:lhs"/>
+        <xs:element ref="lhs"/>
       </xs:sequence>
       <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
 <!-- All rules must have unique names -->
     <xs:key name="queryName">
-      <xs:selector xpath="drools:query"/>
+      <xs:selector xpath="query"/>
       <xs:field xpath="@name"/>
     </xs:key>
   </xs:element>
@@ -66,7 +72,7 @@
   <xs:element name="function">
     <xs:complexType>
       <xs:sequence>
-        <xs:element maxOccurs="unbounded" minOccurs="0" ref="drools:parameter"/>
+        <xs:element maxOccurs="unbounded" minOccurs="0" ref="parameter"/>
         <xs:element name="body" type="xs:string"/>
       </xs:sequence>
       <xs:attribute name="name" type="xs:string" use="required"/>
@@ -83,103 +89,103 @@
   <xs:element name="lhs">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded" minOccurs="0">
-        <xs:element ref="drools:abstractConditionalElement"/>
-        <xs:element ref="drools:not"/>
-        <xs:element ref="drools:exists"/>
-        <xs:element ref="drools:pattern"/>
-        <xs:element ref="drools:eval"/>
-        <xs:element ref="drools:forall"/>
+        <xs:element ref="abstractConditionalElement"/>
+        <xs:element ref="not"/>
+        <xs:element ref="exists"/>
+        <xs:element ref="pattern"/>
+        <xs:element ref="eval"/>
+        <xs:element ref="forall"/>
       </xs:choice>
     </xs:complexType>
   </xs:element>
 <!-- Restriction Conective  -->
-  <xs:element name="abstractRestrictionConnective" type="drools:restrictionElementType" abstract="true"/>
-  <xs:element name="abstractConditionalElement" type="drools:conditionalElementType" abstract="true"/>
-  <xs:element name="abstractConstraintConective" type="drools:constraintConnectiveElementType" abstract="true"/>
+  <xs:element name="abstractRestrictionConnective" type="restrictionElementType" abstract="true"/>
+  <xs:element name="abstractConditionalElement" type="conditionalElementType" abstract="true"/>
+  <xs:element name="abstractConstraintConective" type="constraintConnectiveElementType" abstract="true"/>
   <xs:complexType name="restrictionElementType">
     <xs:choice maxOccurs="unbounded" minOccurs="0">
-      <xs:element ref="drools:literal-restriction"/>
-      <xs:element ref="drools:variable-restriction"/>
-      <xs:element ref="drools:return-value-restriction"/>
-      <xs:element ref="drools:qualified-identifier-restriction"/>
+      <xs:element ref="literal-restriction"/>
+      <xs:element ref="variable-restriction"/>
+      <xs:element ref="return-value-restriction"/>
+      <xs:element ref="qualified-identifier-restriction"/>
     </xs:choice>
   </xs:complexType>
   <xs:complexType name="conditionalElementType">
     <xs:choice maxOccurs="unbounded" minOccurs="0">
-      <xs:element ref="drools:not"/>
-      <xs:element ref="drools:exists"/>
-      <xs:element ref="drools:eval"/>
-      <xs:element ref="drools:pattern"/>
+      <xs:element ref="not"/>
+      <xs:element ref="exists"/>
+      <xs:element ref="eval"/>
+      <xs:element ref="pattern"/>
     </xs:choice>
   </xs:complexType>
   <xs:complexType name="constraintConnectiveElementType">
     <xs:choice maxOccurs="unbounded" minOccurs="0">
-      <xs:element ref="drools:field-constraint"/>
+      <xs:element ref="field-constraint"/>
     </xs:choice>
   </xs:complexType>
-  <xs:element name="and-restriction-connective" substitutionGroup="drools:abstractRestrictionConnective">
+  <xs:element name="and-restriction-connective" substitutionGroup="abstractRestrictionConnective">
     <xs:complexType>
       <xs:complexContent>
-        <xs:extension base="drools:restrictionElementType">
+        <xs:extension base="restrictionElementType">
           <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="drools:or-restriction-connective"/>
+            <xs:element ref="or-restriction-connective"/>
           </xs:choice>
         </xs:extension>
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
-  <xs:element name="or-restriction-connective" substitutionGroup="drools:abstractRestrictionConnective">
+  <xs:element name="or-restriction-connective" substitutionGroup="abstractRestrictionConnective">
     <xs:complexType>
       <xs:complexContent>
-        <xs:extension base="drools:restrictionElementType">
+        <xs:extension base="restrictionElementType">
           <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="drools:and-restriction-connective"/>
+            <xs:element ref="and-restriction-connective"/>
           </xs:choice>
         </xs:extension>
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
 <!-- Conditional Element -->
-  <xs:element name="and-conditional-element" substitutionGroup="drools:abstractConditionalElement">
+  <xs:element name="and-conditional-element" substitutionGroup="abstractConditionalElement">
     <xs:complexType>
       <xs:complexContent>
-        <xs:extension base="drools:conditionalElementType">
+        <xs:extension base="conditionalElementType">
           <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="drools:or-conditional-element"/>
+            <xs:element ref="or-conditional-element"/>
           </xs:choice>
         </xs:extension>
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
-  <xs:element name="or-conditional-element" substitutionGroup="drools:abstractConditionalElement">
+  <xs:element name="or-conditional-element" substitutionGroup="abstractConditionalElement">
     <xs:complexType>
       <xs:complexContent>
-        <xs:extension base="drools:conditionalElementType">
+        <xs:extension base="conditionalElementType">
           <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="drools:and-conditional-element"/>
+            <xs:element ref="and-conditional-element"/>
           </xs:choice>
         </xs:extension>
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
 <!-- Logical Connectives -->
-  <xs:element name="and-constraint-connective" substitutionGroup="drools:abstractConstraintConective">
+  <xs:element name="and-constraint-connective" substitutionGroup="abstractConstraintConective">
     <xs:complexType>
       <xs:complexContent>
-        <xs:extension base="drools:constraintConnectiveElementType">
+        <xs:extension base="constraintConnectiveElementType">
           <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="drools:or-constraint-connective"/>
+            <xs:element ref="or-constraint-connective"/>
           </xs:choice>
         </xs:extension>
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
-  <xs:element name="or-constraint-connective" substitutionGroup="drools:abstractConstraintConective">
+  <xs:element name="or-constraint-connective" substitutionGroup="abstractConstraintConective">
     <xs:complexType>
       <xs:complexContent>
-        <xs:extension base="drools:constraintConnectiveElementType">
+        <xs:extension base="constraintConnectiveElementType">
           <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="drools:and-constraint-connective"/>
+            <xs:element ref="and-constraint-connective"/>
           </xs:choice>
         </xs:extension>
       </xs:complexContent>
@@ -188,48 +194,48 @@
   <xs:element name="not">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded" minOccurs="1">
-        <xs:element ref="drools:abstractConditionalElement"/>
-        <xs:element ref="drools:not"/>
-        <xs:element ref="drools:exists"/>
-        <xs:element ref="drools:pattern"/>
-        <xs:element ref="drools:accumulate"/>
-        <xs:element ref="drools:collect"/>
-        <xs:element ref="drools:forall"/>
+        <xs:element ref="abstractConditionalElement"/>
+        <xs:element ref="not"/>
+        <xs:element ref="exists"/>
+        <xs:element ref="pattern"/>
+        <xs:element ref="accumulate"/>
+        <xs:element ref="collect"/>
+        <xs:element ref="forall"/>
       </xs:choice>
     </xs:complexType>
   </xs:element>
   <xs:element name="exists">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded" minOccurs="0">
-        <xs:element ref="drools:pattern"/>
-        <xs:element ref="drools:abstractConditionalElement"/>
-        <xs:element ref="drools:accumulate"/>
-        <xs:element ref="drools:collect"/>
-        <xs:element ref="drools:forall"/>
+        <xs:element ref="pattern"/>
+        <xs:element ref="abstractConditionalElement"/>
+        <xs:element ref="accumulate"/>
+        <xs:element ref="collect"/>
+        <xs:element ref="forall"/>
       </xs:choice>
     </xs:complexType>
   </xs:element>
   <xs:element name="forall">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded" minOccurs="0">
-        <xs:element ref="drools:pattern"/>
+        <xs:element ref="pattern"/>
       </xs:choice>
     </xs:complexType>
   </xs:element>
   <xs:element name="collect">
     <xs:complexType>
       <xs:choice maxOccurs="1" minOccurs="1">
-        <xs:element ref="drools:pattern"/>
+        <xs:element ref="pattern"/>
       </xs:choice>
     </xs:complexType>
   </xs:element>
   <xs:element name="expression" type="xs:string"/>
-  <xs:element name="expr" type="xs:string"/>  
+  <xs:element name="expr" type="xs:string"/>
   <xs:group name="accumulate">
     <xs:sequence>
       <xs:choice>
-        <xs:element ref="drools:pattern"/>
-        <xs:element ref="drools:abstractConditionalElement"/>
+        <xs:element ref="pattern"/>
+        <xs:element ref="abstractConditionalElement"/>
       </xs:choice>
       <xs:choice>
         <xs:sequence>
@@ -237,23 +243,23 @@
           <xs:element name="action" type="xs:string"/>
           <xs:element name="result" type="xs:string"/>
         </xs:sequence>
-        <xs:element ref="drools:external-function"/>
+        <xs:element ref="external-function"/>
       </xs:choice>
     </xs:sequence>
   </xs:group>
   <xs:element name="accumulate">
     <xs:complexType>
       <xs:choice maxOccurs="1" minOccurs="1">
-        <xs:group ref="drools:accumulate"/>
+        <xs:group ref="accumulate"/>
       </xs:choice>
     </xs:complexType>
   </xs:element>
   <xs:element name="from">
     <xs:complexType>
       <xs:choice maxOccurs="1">
-        <xs:element ref="drools:collect"/>
-        <xs:element ref="drools:expression"/>
-        <xs:element ref="drools:accumulate"/>
+        <xs:element ref="collect"/>
+        <xs:element ref="expression"/>
+        <xs:element ref="accumulate"/>
       </xs:choice>
     </xs:complexType>
   </xs:element>
@@ -261,12 +267,12 @@
   <xs:element name="pattern">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded" minOccurs="0">
-        <xs:element ref="drools:field-binding"/>
-        <xs:element ref="drools:field-constraint"/>
-        <xs:element ref="drools:from"/>
-        <xs:element ref="drools:predicate"/>
-        <xs:element ref="drools:expr"/>        
-        <xs:element ref="drools:abstractConstraintConective"/>
+        <xs:element ref="field-binding"/>
+        <xs:element ref="field-constraint"/>
+        <xs:element ref="from"/>
+        <xs:element ref="predicate"/>
+        <xs:element ref="expr"/>
+        <xs:element ref="abstractConstraintConective"/>
       </xs:choice>
       <xs:attribute name="field-name" type="xs:string" use="optional"/>
       <xs:attribute name="identifier" type="xs:string" use="optional"/>
@@ -276,9 +282,9 @@
   <xs:element name="field-constraint">
     <xs:complexType>
       <xs:complexContent>
-        <xs:extension base="drools:restrictionElementType">
+        <xs:extension base="restrictionElementType">
           <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="drools:abstractRestrictionConnective"/>
+            <xs:element ref="abstractRestrictionConnective"/>
           </xs:choice>
           <xs:attribute name="field-name" type="xs:string" use="required"/>
         </xs:extension>
