@@ -99,7 +99,8 @@
   <xs:element name="lhs">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded" minOccurs="0">
-        <xs:element ref="abstractConditionalElement"/>
+        <xs:element ref="and-conditional-element"/>
+        <xs:element ref="or-conditional-element"/>
         <xs:element ref="not"/>
         <xs:element ref="exists"/>
         <xs:element ref="pattern"/>
@@ -139,96 +140,88 @@
       <xs:element ref="exists"/>
       <xs:element ref="eval"/>
       <xs:element ref="pattern" maxOccurs="unbounded"/>
+      <xs:element ref="and-conditional-element"/>
+      <xs:element ref="or-conditional-element"/>
     </xs:choice>
   </xs:complexType>
 
   <xs:complexType name="constraintConnectiveElementType">
     <xs:choice maxOccurs="unbounded" minOccurs="0">
       <xs:element ref="field-constraint" maxOccurs="unbounded"/>
+      <xs:element ref="or-constraint-connective" maxOccurs="unbounded"/>
+      <xs:element ref="and-constraint-connective" maxOccurs="unbounded"/>
     </xs:choice>
   </xs:complexType>
 
-  <xs:element name="and-restriction-connective"
-      substitutionGroup="abstractRestrictionConnective">
+  <xs:element name="and-restriction-connective">
     <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="restrictionElementType">
-          <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="or-restriction-connective"/>
-          </xs:choice>
-        </xs:extension>
-      </xs:complexContent>
+      <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:element ref="literal-restriction" maxOccurs="unbounded"/>
+        <xs:element ref="variable-restriction"/>
+        <xs:element ref="return-value-restriction"/>
+        <xs:element ref="qualified-identifier-restriction"/>
+        <xs:element ref="or-restriction-connective"/>
+      </xs:choice>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="or-restriction-connective"
-      substitutionGroup="abstractRestrictionConnective">
+  <xs:element name="or-restriction-connective">
     <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="restrictionElementType">
-          <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="and-restriction-connective"/>
-          </xs:choice>
-        </xs:extension>
-      </xs:complexContent>
+      <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:element ref="literal-restriction" maxOccurs="unbounded"/>
+        <xs:element ref="variable-restriction"/>
+        <xs:element ref="return-value-restriction"/>
+        <xs:element ref="qualified-identifier-restriction"/>
+        <xs:element ref="and-restriction-connective"/>
+      </xs:choice>
     </xs:complexType>
   </xs:element>
 
   <!--
        Conditional elements
   -->
-  <xs:element name="and-conditional-element"
-      substitutionGroup="abstractConditionalElement">
+  <xs:element name="and-conditional-element">
     <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="conditionalElementType">
-          <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="or-conditional-element"/>
-          </xs:choice>
-        </xs:extension>
-      </xs:complexContent>
+      <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:element ref="not"/>
+        <xs:element ref="exists"/>
+        <xs:element ref="eval"/>
+        <xs:element ref="pattern" maxOccurs="unbounded"/>
+        <xs:element ref="or-conditional-element"/>
+      </xs:choice>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="or-conditional-element"
-      substitutionGroup="abstractConditionalElement">
+  <xs:element name="or-conditional-element">
     <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="conditionalElementType">
-          <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="and-conditional-element"/>
-          </xs:choice>
-        </xs:extension>
-      </xs:complexContent>
+      <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:element ref="not"/>
+        <xs:element ref="exists"/>
+        <xs:element ref="eval"/>
+        <xs:element ref="pattern" maxOccurs="unbounded"/>
+        <xs:element ref="and-conditional-element"/>
+      </xs:choice>
     </xs:complexType>
   </xs:element>
 
   <!--
        Logical connectives
   -->
-  <xs:element name="and-constraint-connective"
-      substitutionGroup="abstractConstraintConnective">
+  <xs:element name="and-constraint-connective">
     <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="constraintConnectiveElementType">
-          <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="or-constraint-connective"/>
-          </xs:choice>
-        </xs:extension>
-      </xs:complexContent>
+      <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:element ref="field-constraint" maxOccurs="unbounded"/>
+        <xs:element ref="or-constraint-connective"/>
+      </xs:choice>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="or-constraint-connective"
-      substitutionGroup="abstractConstraintConnective">
+  <xs:element name="or-constraint-connective">
     <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="constraintConnectiveElementType">
-          <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="and-constraint-connective"/>
-          </xs:choice>
-        </xs:extension>
-      </xs:complexContent>
+      <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:element ref="field-constraint" maxOccurs="unbounded"/>
+        <xs:element ref="and-constraint-connective"/>
+      </xs:choice>
     </xs:complexType>
   </xs:element>
 
@@ -282,7 +275,8 @@
     <xs:sequence>
       <xs:choice>
         <xs:element ref="pattern"/>
-        <xs:element ref="abstractConditionalElement"/>
+        <xs:element ref="and-conditional-element"/>
+        <xs:element ref="or-conditional-element"/>
       </xs:choice>
       <xs:choice>
         <xs:sequence>
@@ -324,6 +318,8 @@
         <xs:element ref="predicate"/>
         <xs:element ref="expr"/>
         <xs:element ref="abstractConstraintConnective"/>
+        <xs:element name="or-constraint-connective"/>
+        <xs:element name="and-constraint-connective"/>
       </xs:choice>
       <xs:attribute name="field-name" type="xs:string" use="optional"/>
       <xs:attribute name="identifier" type="xs:string" use="optional"/>
@@ -333,14 +329,16 @@
 
   <xs:element name="field-constraint">
     <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="restrictionElementType">
-          <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element ref="abstractRestrictionConnective"/>
-          </xs:choice>
-          <xs:attribute name="field-name" type="xs:string" use="required"/>
-        </xs:extension>
-      </xs:complexContent>
+      <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:element ref="literal-restriction" maxOccurs="unbounded"/>
+        <xs:element ref="variable-restriction"/>
+        <xs:element ref="return-value-restriction"/>
+        <xs:element ref="qualified-identifier-restriction"/>
+        <xs:element ref="abstractRestrictionConnective"/>
+        <xs:element ref="and-restriction-connective"/>
+        <xs:element ref="or-restriction-connective"/>
+      </xs:choice>
+      <xs:attribute name="field-name" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
 
